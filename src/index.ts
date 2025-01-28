@@ -5,4 +5,11 @@ process.on('unhandledRejection', (err) => {
     process.exit(1)
 })
 
-await startServer()
+async function main() {
+    await startServer()
+}
+
+main().catch(err => {
+    console.error('Failed to start server:', err)
+    process.exit(1)
+})

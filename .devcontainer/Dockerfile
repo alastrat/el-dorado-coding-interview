@@ -4,9 +4,17 @@ FROM node:20
 RUN apt update && apt install -y less man-db sudo
 
 # Ensure default `node` user has access to `sudo`
-ARG USERNAME=node
-RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
+RUN echo "node ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/node
 
 # Set `DEVCONTAINER` environment variable to help with orientation
 ENV DEVCONTAINER=true
+
+WORKDIR /workspaces
+
+# Install global npm packages
+RUN npm install -g typescript ts-node nodemon
+
+USER node
+
+# Expose port 3000 for the application
+#EXPOSE 3000
